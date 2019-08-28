@@ -1,72 +1,153 @@
-2014-24-12 millard@insa-toulouse.fr
-
-This archive contains the supplementary data of:
-
-  Impact of kinetic isotope effects in isotope labeling experiments
-  by P. Millard, J.C. Portais and P. Mendes
-
-Copyright 2014, INRA, France
-License: GNU General Public License v2
-
-For the complete terms of the GNU General Public License, please see the file 'license.txt' distributed with this software or at this URL:
-http://www.gnu.org/licenses/gpl-2.0.html
+# IsoSim - Toolbox for modelling isotopic and/or metabolic dynamics.
 
 
-################
-# Description  #
-################
+## What is IsoSim?
+**IsoSim is an R toolbox dedicated to simulation and analysis of metabolic systems under stationary or dynamic conditions.**
 
-This archive contains all the scripts required to construct the model represented in figure 2 of the paper, perform the simulations and reproduce the figures 3 to 8.
+IsoSim is a highly versatile platform designed for integration of metabolomics, proteomics and isotopic data with kinetic, thermodynamic, regulatory and stoichiometric constraints.
 
-  - simulations.r      : run this script to construct the models, perform the simulations and generate the figures
-  - e_coli_13C_xch.r   : structure of the model shown in figure 2 of the paper, isotope exchange is considered
-  - e_coli_13C_noxch.r : structure of the model shown in figure 2 of the paper, isotope exchange is not considered
-  - IsoSim.r           : core functions, required to generate the equation system and perform the simulations
-  - plot_fun.r         : functions used to plot the simulation results
+IsoSim also implements ScalaFlux, a scalable <sup>13</sup>C-fluxomics approach to quantify fluxes in metabolic subnetworks (see [ScalaFlux publication](bioarxiv_doi) for details).
 
+The code is open-source, and available under a GPLv3 license. Additional information can be found in [IsoSim](https://dx.doi.org/10.1186%2Fs12918-015-0213-8) and [ScalaFlux](bioarxiv_doi) publications.
 
-################
-# Requirements #
-################
+## Key features
 
-R, Rtools and additional R packages (Matrix, rootSolve, deSolve, stringr, RColorBrewer) are required. This code was tested on Windows 7 and R 3.0, but should run on Linux, MacOS and other platforms supporting R.
-
-R and Rtools can be downloaded online at http://cran.r-project.org/ and must be installed manually (Rtools should also be in the PATH variable of your system, see Rtools documentation for details).
-All the required packages can be installed automatically by running the following command in an R console:
-
-    install.packages(c("Matrix", "rootSolve", "deSolve", "stringr", "RColorBrewer"))
+- construction and analysis of stoichiometric and kinetic models of metabolic systems
+- simulation of the dynamics of metabolite concentration and/or isotope propagation
+- <sup>13</sup>C-flux calculation under instationary and dynamic conditions (other isotopic tracers can also be used)
+- <sup>13</sup>C-flux calculation using the ScalaFlux approach (e.g. functions to fit the labeling dynamics of metabolites used as local label inputs, see the ScalaFlux publication for details on this approach)
+- estimation of kinetic parameters of enzymes
+- non linear sensitivity analysis (Monte Carlo) to determine the precision on estimated parameters
+- parallelization to reduce calculation times on multicore platforms
 
 
-################
-# Usage        #
-################
+## Installation
 
-The figures can be created by running 'simulations.r'. 
-All the simulations are performed by IsoSim. Therefore, one should check that IsoSim works correctly before running 'simulations.r'. In that aim:
+R, a set of R development tools and additional R packages (nnls, numDeriv, Matrix, deSolve, stringr, RColorBrewer, pso, parallel) are required. This code was tested on Windows 7 and R 3.2, but should also run on Linux, MacOS and other platforms supporting R.
+
+R can be downloaded online at http://cran.r-project.org/ and must be installed manually. You will also need a set of development tools. On Windows, 
+download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/) (Rtools should also be in the *PATH* variable of your system, see [Rtools documentation](https://cran.r-project.org/bin/windows/Rtools/) for details). On Mac, install the [Xcode command line tools](https://developer.apple.com/downloads). 
+On Linux, install the R development package, usually called `r-devel` or `r-base-dev`.
+
+To install all the packages required by IsoSim, run the following command in an R console:
+
+```bash
+> install.packages(c("nnls", "numDeriv", "Matrix", "deSolve", "stringr", "RColorBrewer", "pso", "parallel"))
+```
+
+*Note:* to analyse the network provided as [example 1](#1-example-network), you will also need the package vioplot, which can be installed with this command:
+
+```bash
+> install.packages("vioplot")
+```
+
+To verify that IsoSim works correctly on your system:
   
-  - open an R console
-  - set the working directory to the supplementary data folder:
+- go to IsoSim directory, e.g.:
 
-  setwd("C:/example/sup_data_folder")
+```bash
+$ cd /home/usr/isosim/isosim/
+```
 
-  - load IsoSim:
+- open an R console:
 
-  source("IsoSim.r")
+```bash
+$ R
+```
 
-A message will be displayed if some required packages are missing. In this case, please follow the instructions to install the required package(s), then reload IsoSim.
+- load IsoSim:
 
-  - if no warning occurs when loading IsoSim, run the test function:
+```bash
+> source("isosim.R")
+```
 
-  isosim_test()
+*Note:* A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
 
-This function generates a model of the toy network shown in figure 1 of the paper and performs steady-state and time-course simulations (have a look at this function for examples on network definition and isosim usage). A folder 'test' containing the simulation results should be created in the working directory, and no error should be displayed. If an error is displayed at the compilation step, check that Rtools is correctly installed and is in the PATH variable of your system (update the PATH if needed, see Rtools documentation for help). Please refers to IsoSim code for other problems.
-  
-To construct the model represented in figure 2 of the paper, perform the simulations and generate the figures 3 to 8, run 'simulations.r' with the command:
+- run the test function:
 
-  source("simulations.r")
+```bash
+> isosim_test()
+```
 
-The 'results' directory will be created, with the following files:
+This function builds a test model (network shown in Figure 1A of IsoSim publication), simulates labeling kinetics, and recalculates some fluxes from this theoretical dataset. Most of 
+the practical situations and features should be covered by these tests, have a look at this code for examples on network definition and IsoSim usage (we are working on a more complete documentation which should be available soon).
+A folder `test` containing the simulation results should be created in the working directory (here `/home/usr/isosim/isosim/test/`), and no error should be displayed.
+If an error is displayed at the compilation step, check that the set of R development tools is correctly installed. 
+Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker](https://github.com/MetaSys-LISBP/IsoSim/issues) for other problems.
 
-  - the figures in pdf format
-  - the compiled libraries for each model (with and without taking KIEs into account, with and without isotope exchange)
-  - the fortran code from which the librairies are compiled (*.f files)
+## ScalaFlux: Scalable <sup>13</sup>C-metabolic flux analysis
+
+We have implemented the ScalaFlux approach in IsoSim to quantity fluxes in metabolic subnetworks. As illustrative examples, we have analysed two metabolic systems:
+
+- a theoretical network (shown in Figure 1A of ScalaFlux publication)
+
+- the yeast prenyl pyrophosphate pathway (shown in Figure 5A of ScalaFlux publication)
+
+The code used to perform the calculations detailed in the publication is provided in this repository. To run the calculations, download 
+the current repository and follow the instructions provided below.
+
+*Note:* folders `isosim` and `models` should be in the same directory.
+
+#### 1. Example network
+
+*Note:* this script also requires the package vioplot (see [Installation](#installation)).
+
+To run flux calculations on the **example network** and reproduce **Figure 3** (panels B and C) and **Figure 4** (panels B and C):
+
+- go to the example directory, e.g.:
+
+```bash
+$ cd /home/usr/isosim/models/example_network/
+```
+
+- open an R console:
+
+```bash
+$ R
+```
+
+- run the example file:
+
+```bash
+> source("example_network.R")
+```
+
+All output files should be stored in a `res` folder of the example directory (here `/home/usr/isosim/models/example_network/res/`).
+
+#### 2. Prenyl pyrophosphate biosynthetic pathway
+
+To run flux calculations on the **prenyl pyrophosphate biosynthetic pathway** and reproduce **Figure 5** (panels B-E):
+
+- go to the example directory, e.g.:
+
+```bash
+$ cd /home/usr/isosim/models/prenylpyrophosphate_pathway/
+```
+
+- open an R console:
+
+```bash
+$ R
+```
+
+- run the example file:
+
+```bash
+> source("example_prenylpyrophosphate.R")
+```
+
+All output files should be stored in a `res` folder of the example directory (here `/home/usr/isosim/models/prenylpyrophosphate_pathway/res/`).
+
+## How to cite
+
+Thank you for using IsoSim and citing us in your work! It means a lot to us and encourages us to continue its development.
+
+Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks. BioRxiv, DOI: *bioarxiv_doi*.
+
+## Authors
+
+Pierre Millard [(ORCID page)](https://orcid.org/0000-0002-8136-9963)
+
+## Contact
+
+:email: Pierre Millard, millard@insa-toulouse.fr

@@ -1,0 +1,18 @@
+# specific ignore for dev
+models/prenylpyrophosphate_pathway/res/
+models/prenylpyrophosphate_pathway/tmp/
+models/example_network/res/
+models/example_network/tmp/
+isosim/test/
+
+# vscode IDE project settings
+.vscode/settings.json
+
+# history files
+models/prenylpyrophosphate_pathway/.Rhistory
+models/example_network/.Rhistory
+isosim/.Rhistory
+.Rhistory
+
+# C extensions
+*.so
