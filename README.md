@@ -71,7 +71,7 @@ $ R
 
 This function builds a test model (network shown in Figure 1A of IsoSim publication), simulates labeling kinetics, and recalculates some fluxes from this theoretical dataset. Most of 
 the practical situations and features should be covered by these tests, have a look at this code for examples on network definition and IsoSim usage (we are working on a more complete documentation which should be available soon).
-A folder `test` containing the simulation results should be created in the working directory (here `/home/usr/isosim/isosim/test/`), and no error should be displayed.
+A folder `test` containing all the results should be created in the working directory (here `/home/usr/isosim/isosim/test/`), and no error should be displayed.
 If an error is displayed at the compilation step, check that the set of R development tools is correctly installed. 
 Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker](https://github.com/MetaSys-LISBP/IsoSim/issues) for other problems.
 
@@ -112,7 +112,7 @@ $ R
 > source("example_network.R")
 ```
 
-All output files should be stored in a `res` folder of the example directory (here `/home/usr/isosim/models/example_network/res/`).
+All output files should be in a `res` folder of the example directory (here `/home/usr/isosim/models/example_network/res/`).
 
 #### 2. Prenyl pyrophosphate biosynthetic pathway
 
@@ -136,7 +136,7 @@ $ R
 > source("example_prenylpyrophosphate.R")
 ```
 
-All output files should be stored in a `res` folder of the example directory (here `/home/usr/isosim/models/prenylpyrophosphate_pathway/res/`).
+All output files should be in a `res` folder of the example directory (here `/home/usr/isosim/models/prenylpyrophosphate_pathway/res/`).
 
 ## How to cite
 
@@ -146,7 +146,8 @@ Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). Sca
 
 ## Authors
 
-Pierre Millard [(ORCID page)](https://orcid.org/0000-0002-8136-9963)
+[Pierre Millard](https://orcid.org/0000-0002-8136-9963), [MetaSys Team](http://www.toulouse-biotechnology-institute.fr/en/research/molecular-physiology-and-metabolism/metasys.html), 
+[Toulouse Biotechnology Institute](https://www.lisbp.fr/en/index.html), France
 
 ## Contact
 

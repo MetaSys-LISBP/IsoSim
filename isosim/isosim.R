@@ -52,11 +52,11 @@ if (length(res_load$err)){
 
 source("nlsic.R")
 
-##################
-# LOAD FUNCTIONS #
-##################
+#########################
+# LOAD ISOSIM FUNCTIONS #
+#########################
 
-# Opposite of %in% to identify elements which are NOT in an object
+# Opposite of %in% to identify elements which are *not* in an object
 "%ni%" <- Negate("%in%")
 
 # rBind and cBind are deprecated since R version 3.2.0,  base's rbind() and cbind() now work fine with S4 objects
