@@ -9,16 +9,16 @@ IsoSim must be installed beforehand. Have a look [here](https://github.com/MetaS
 
 - Go to IsoSim directory, e.g.:
 
-```bash
-$ cd /home/usr/isosim/isosim/
-```
+  ```bash
+  $ cd /home/usr/isosim/isosim/
+  ```
 
 - Open an R console:
 
-```bash
-$ R
-```
-
+  ```bash
+  $ R
+  ```
+  
 - Load IsoSim:
 
 ```bash
@@ -337,23 +337,23 @@ list:
 
 - Save the complete flux calculation results:
 
-To save detailed results (containing the network structure, experimental and fitted data, etc), run:
+  To save detailed results (containing the network structure, experimental and fitted data, etc), run:
 
-```bash
-> list2file(res_sub, file="results_minimal_subsystems.txt")
-```
+  ```bash
+  > list2file(res_sub, file="results_minimal_subsystems.txt")
+  ```
 
-To save only results summary (estimated fluxes with their statistics), run:
+  To save only results summary (estimated fluxes with their statistics), run:
 
-```bash
-> list2file(res_sub$summary, file="summary_minimal_subsystems.txt")
-```
+  ```bash
+  > list2file(res_sub$summary, file="summary_minimal_subsystems.txt")
+  ```
 
 - Display results summary:
-
-```bash
-> print(res_sub$summary)
-```
+  
+  ```bash
+  > print(res_sub$summary)
+  ```
 
 ## Return to the initial working directory
 
