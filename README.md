@@ -152,7 +152,10 @@ Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). Sca
 
 ## Authors
 
-[Pierre Millard](https://orcid.org/0000-0002-8136-9963), [MetaSys Team](http://www.toulouse-biotechnology-institute.fr/en/research/molecular-physiology-and-metabolism/metasys.html), 
+[Pierre Millard](https://orcid.org/0000-0002-8136-9963), INRA
+
+[MetaSys Team](http://www.toulouse-biotechnology-institute.fr/en/research/molecular-physiology-and-metabolism/metasys.html)
+
 [Toulouse Biotechnology Institute](https://www.lisbp.fr/en/index.html), France
 
 ## Contact
