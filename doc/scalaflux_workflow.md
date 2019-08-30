@@ -137,9 +137,9 @@ free fluxes or to estimate other variables used during calculations.
 ## Simulate labeling dynamics
 
 Once you have constructed the model, we strongly encourage you to run some simulations and to verify that simulation results correspond to the 
-expected behaviour (e.g. metabolite concentrations and fluxes should be constant, assuming the modeled system operates at metabolic steady-state).
+expected behaviour (e.g. assuming the modeled system operates at metabolic steady-state, metabolite concentrations and fluxes should be constant).
 
-- Define the labeling dynamics of label input(s) (here Sout) using analytical functions 
+- Define the labeling dynamics of label input(s) (here S<sub>out</sub>) using analytical functions 
 (here we simulate a switch from unlabeled to fully-labeled nutrient)
 
 ```bash
@@ -147,8 +147,9 @@ expected behaviour (e.g. metabolite concentrations and fluxes should be constant
                 "Sout_1-M1" = "1.0+0.0*t")
 ```
 
-Each element should contain the time-dependent analytical function of an isotopologue of all EMUs of label inputs, with the corresponding name. The required list 
-of label input EMUs isotopologues is automatically identified when constructing the model (see `net$min_meas`).
+Each element should contain the time-dependent analytical function of an isotopologue of all EMUs of label inputs, with the appropriate name `X_Y-Z-Mn`, 
+where `X` (str) is the metabolite name, `Y` (int) (and `Z`) is (are) the carbon atom(s) contained in the corresponding EMU, and `n` (int) is the weight of the corresponding isotopologue. 
+The list of all label input EMUs isotopologues required to perform simulations is automatically identified when constructing the model (see `net$min_meas`).
 
 Note: All the analytical functions *must* contain the time variable `t`, even if the label input(s) is (are) constant.
 			  
@@ -185,7 +186,9 @@ and
                  "P"=20)
 ```
 
-- Define simulation times (here to simulate an exponential sampling frequency from 0 to 15 min):
+- Define simulation times:
+
+For instance, to simulate an exponential sampling frequency from 0 to 15 min defined `times` as:
 
 ```bash
 > times <- round(10**(seq(0, log10(16), length.out=30))-1, 2)
@@ -211,7 +214,7 @@ in a folder `sim`.
 
 ## Fit label inputs
 
-- Experimental labeling dynamics of label input(s) to fit (here we fit the theoretical labeling dynamics of C):
+- Experimental labeling dynamics of label input(s) to fit (here we fit the theoretical dynamics of the mean enrichment of C):
 
 ```bash
 > enr_input <- res$res_dyn$enrichments[, "C_1", drop=FALSE]
@@ -237,9 +240,9 @@ subsystem (list):
   $te_loc_subnet (vector):    named vector of lower bound constraints on free parameters
   $data_meas_subnet (list):   experimental data to fit
   $sd_meas (list):            standard deviations on experimental data to fit
-  $times (vector):            simulation times (all measurement times must be included)
+  $times (vector):            simulation times (all measurement times *must* be included)
   $enr_in (list):             list of fitted label inputs returned by `fit_label_input()`
-  $anFun (list):              analytical functions (if any, otherwise should be NULL)
+  $anFun (list):              analytical functions (if any, otherwise should be NULL and $enr_in is used)
   $niter (int):               number of Monte Carlo iterations for flux calculations
   $mc.cores (int):            number of cores for parallelization
 ```
@@ -285,7 +288,7 @@ Or pass the list of subsystems to analyze all of them at once:
 > res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
 ```
 
-- Save flux calculation results:
+- Save the flux calculation results:
 
 To save detailed results (containing the network structure, experimental and fitted data, etc), run:
 
