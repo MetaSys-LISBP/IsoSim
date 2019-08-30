@@ -1205,7 +1205,7 @@ iseq=function(n) {
   seq.int(from=1, to=n, length=n)
 }
 
-plot_iso <- function(x, y, xlab, ylab, type="l", lty=1, lwd=2, lpos="topright", inset=c(-0.14, 0), pch=20, cex=0.4, bty="n", ncolumns=1, las=1){
+plot_iso <- function(x, y, xlab, ylab, type="l", lty=1, lwd=2, lpos="topright", inset=c(-0.14, 0), pch=20, cex=0.45, bty="n", ncolumns=1, las=1){
   #
   # Plot isotopic dynamics.
   #
@@ -1320,10 +1320,11 @@ simulate <- function(net, kp, anFun=NULL, times=seq(0,100,1), meta_conc=NULL, is
   
   # plot simulated and measured data
   if (plot){
-    pdf(file="plot.pdf", width=14, height=3.5)
+    pdf(file="plot.pdf", width=10, height=7)
     par(mar=c(5.1, 5.1, 4.1, 7.1), xpd=TRUE)
-    layout(matrix(seq(1, 3), 1, 3, byrow = TRUE))
-    plot_iso(result_dyn$times, result_dyn$metabolites, "time", "metabolites", inset=plot_opt$inset, ncolumns=2)
+    layout(matrix(seq(1, 4), 2, 2, byrow = TRUE))
+    plot_iso(result_dyn$times, result_dyn$metabolites, "time", "metabolite conc.", inset=plot_opt$inset, ncolumns=2)
+    plot_iso(result_dyn$times, result_dyn$flx, "time", "flux", inset=plot_opt$inset, ncolumns=2)
     plot_iso(result_dyn$times, result_dyn$isotopologues, "time", "isotopologue", inset=plot_opt$inset, ncolumns=2)
     plot_iso(result_dyn$times, result_dyn$enrichments, "time", "enrichment", inset=plot_opt$inset, ncolumns=2)
     dev.off()
@@ -1866,7 +1867,8 @@ fit_subsystem <- function(subsystem){
 
 cleanDLL <- function(){
   #
-  # Unload all libraries named *lib_f*
+  # Unload all the libraries loaded by IsoSim (their names
+  # contains *lib_f*).
   #
   getLoadedDLLs()
   a <- getLoadedDLLs()
@@ -1958,7 +1960,7 @@ detailed examples of IsoSim usage.
   numCores <- detectCores()
   
   # number of Monte Carlo iterations for flux calculation
-  mc_iter <- 10
+  mc_iter <- 4
 
   ####################################
   cat("   ... construct isotopic model ...\n")
@@ -2053,8 +2055,23 @@ detailed examples of IsoSim usage.
   cat("   ... calculate fluxes ...\n\n")
   ####################################
   
-  # definition of minimal subsystems to analyze
-  # here, fluxes and pools are estimated for two minimal subsystems (S_E and S_P) of the example network
+  # definition of each minimal subsystem to analyze
+  # (here, fluxes and pools are estimated for two minimal subsystems - S_E and S_P - of the example network)
+  # subsystems (list):
+  #   $rxn_subnet (list): network definition (list), as detailed above
+  #   $meta_conc_subnet (vector): named vector of initial metabolite concentrations
+  #   $kp_subnet (vector): named vector of model parameters
+  #   $te_subnet (vector): free parameters to estimate (can be model parameters and metabolite concentrations)
+  #   $te_upc_subnet (vector): named vector of upper bound constraints on free parameters
+  #   $te_loc_subnet (vector): named vector of lower bound constraints on free parameters
+  #   $data_meas_subnet (list): experimental data to fit
+  #   $sd_meas (list): standard deviations on experimental data to fit
+  #   $times (vector): simulation times (all measurement times must be included)
+  #   $enr_in (list): list of fitted label inputs returned by 'fit_label_input()'
+  #   $anFun (list): analytical functions (if any, otherwise should be NULL)
+  #   $niter (int): number of Monte Carlo iterations for flux calculations
+  #   $mc.cores (int): number of cores for parallelization
+  
   subsystems <- list(
     
     S_E = list(name = "S_E",
@@ -2090,7 +2107,7 @@ detailed examples of IsoSim usage.
                data_meas_subnet = list(conc=c("P"=20), iso=cbind(times, "P_1"=res$res_dyn$enrichments[, "P_1"])))
   )
   
-  # calculate fluxes for each subsystem
+  # calculate fluxes for all subsystems
   res_sub <- fit_subsystems(subsystems, dirname="fit_minimal_subsystems", mc.cores=numCores)
   
   # save summary of flux calculation results

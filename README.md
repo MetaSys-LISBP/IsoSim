@@ -6,9 +6,9 @@
 
 IsoSim is a highly versatile platform designed for integration of metabolomics, proteomics and isotopic data with kinetic, thermodynamic, regulatory and stoichiometric constraints.
 
-IsoSim also implements ScalaFlux, a scalable <sup>13</sup>C-fluxomics approach to quantify fluxes in metabolic subnetworks (see [ScalaFlux publication](https://doi.org/10.1101/735308) for details).
+IsoSim also implements ScalaFlux, a scalable <sup>13</sup>C-fluxomics approach to quantify fluxes in metabolic subnetworks (see [ScalaFlux publication](https://www.biorxiv.org/content/10.1101/735308v1) for details).
 
-The code is open-source, and available under a GPLv3 license. Additional information can be found in [IsoSim](https://dx.doi.org/10.1186%2Fs12918-015-0213-8) and [ScalaFlux](https://doi.org/10.1101/735308) publications.
+The code is open-source, and available under a GPLv3 license. Additional information can be found in [IsoSim](https://dx.doi.org/10.1186%2Fs12918-015-0213-8) and [ScalaFlux](https://www.biorxiv.org/content/10.1101/735308v1) publications.
 
 ## Key features
 
@@ -77,11 +77,11 @@ Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker]
 
 ## ScalaFlux: Scalable <sup>13</sup>C-metabolic flux analysis
 
-We have implemented the [ScalaFlux approach](https://doi.org/10.1101/735308) in IsoSim to quantity fluxes in metabolic subnetworks. As illustrative examples, we have analysed two metabolic systems:
+We have implemented the [ScalaFlux approach](https://www.biorxiv.org/content/10.1101/735308v1) in IsoSim to quantity fluxes in metabolic subnetworks. As illustrative examples, we have analysed two metabolic systems:
 
-- a theoretical network (shown in Figure 1A of [ScalaFlux](https://doi.org/10.1101/735308) publication)
+- a theoretical network (shown in Figure 1A of [ScalaFlux](https://www.biorxiv.org/content/10.1101/735308v1) publication)
 
-- the yeast prenyl pyrophosphate pathway (shown in Figure 5A of [ScalaFlux](https://doi.org/10.1101/735308) publication)
+- the yeast prenyl pyrophosphate pathway (shown in Figure 5A of [ScalaFlux](https://www.biorxiv.org/content/10.1101/735308v1) publication)
 
 The code used to perform the calculations detailed in the publication is provided in this repository. To run the calculations, download 
 the current repository and follow the instructions provided below.
@@ -142,7 +142,7 @@ All output files should be in a `res` folder of the example directory (here `/ho
 
 Thank you for using IsoSim and citing us in your work! It means a lot to us and encourages us to continue its development.
 
-Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks. BioRxiv, DOI: [10.1101/735308](https://doi.org/10.1101/735308).
+Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks. BioRxiv, DOI: [10.1101/735308](https://www.biorxiv.org/content/10.1101/735308v1).
 
 ## Authors
 

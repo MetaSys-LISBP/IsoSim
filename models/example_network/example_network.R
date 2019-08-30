@@ -66,8 +66,8 @@ mc_iter <- 5
 cat("\n   ... construct isotopic model of the example network ...\n\n")
 ####################################
 
-# Network definition
-# Reactions: Reactants, Coefficients, Rate law, Atom transitions
+# network definition
+# reactions: Reactants, Coefficients, Rate law, Atom transitions
 rxn <- list(r1     = list("R"=c("Sout", "Sin"), "C"=c(-1, 1),     "E"="v1",   "T"=c("A", "A")),
             r2     = list("R"=c("Sin", "A"),    "C"=c(-1, 1),     "E"="v2",   "T"=c("A", "A")),
             r3     = list("R"=c("Sin", "D"),    "C"=c(-1, 1),     "E"="v3",   "T"=c("A", "A")),
@@ -91,7 +91,7 @@ rxn <- list(r1     = list("R"=c("Sout", "Sin"), "C"=c(-1, 1),     "E"="v1",   "T
             r20    = list("R"=c("P"),           "C"=c(-1),        "E"="v20",  "T"=c("A"))
 )
 
-# Equations for determined fluxes
+# equations for determined fluxes
 eq_det <- c("v3 = v1-v2",
             "v5 = v6f-v6r",
             "v4 = v2-v5",
@@ -109,7 +109,7 @@ eq_det <- c("v3 = v1-v2",
             "v19 = v18+v17",
             "v20 = v19")
 
-# Create the equations system
+# construct the model
 net <- net2mat(rxn, add_eq=eq_det)
 
 ####################################
