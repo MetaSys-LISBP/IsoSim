@@ -270,6 +270,7 @@ Results are saved in subfolder `res_fit_enr`:
 
   ```bash
   subsystem (list):
+    $name (str):                name of the subsystem
     $rxn_subnet (list):         definition of the [subnetwork](#construct-a-metabolic-model) of interest
     $meta_conc_subnet (vector): named vector of [initial metabolite concentrations](#simulate-labeling-dynamics)
     $kp_subnet (vector):        named vector of [model parameters](#simulate-labeling-dynamics)
@@ -321,13 +322,13 @@ Results are saved in subfolder `res_fit_enr`:
   > res_sub <- fit_subsystems(subsystem_1)
   ```
 
-  Or pass the list of subsystems to analyze all of them at once:
+  Or pass directly the full list of subsystems/datasets to analyze:
 
   ```bash
   > res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
   ```
 
-  Flux calculation results are saved in subfolder `fit_subnet_n` (where `n` is the name of the subsystem, e.g. `subsystem_1$name`):
+  Flux calculation results are saved in subfolder `fit_subnet_n` (where `n` is the name of the subsystem, i.e. which is in `$name`):
 
   `results.pdf`: plot of exp. vs fitted labeling dynamics of all metabolites
   
@@ -337,7 +338,7 @@ Results are saved in subfolder `res_fit_enr`:
 
 - Save the complete flux calculation results:
 
-  To save detailed results (containing the network structure, experimental and fitted data, etc), run:
+  To save detailed results (containing the network structure, experimental data, optimization details, etc), run:
 
   ```bash
   > list2file(res_sub, file="results_minimal_subsystems.txt")
