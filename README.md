@@ -43,19 +43,19 @@ Note: to analyse the network provided as [example 1](#1-example-network), you wi
 
 To verify that IsoSim works correctly on your system:
   
-- go to IsoSim directory, e.g.:
+- Go to IsoSim directory, e.g.:
 
 ```bash
 $ cd /home/usr/isosim/isosim/
 ```
 
-- open an R console:
+- Open an R console:
 
 ```bash
 $ R
 ```
 
-- load IsoSim:
+- Load IsoSim:
 
 ```bash
 > source("isosim.R")
@@ -63,7 +63,7 @@ $ R
 
 Note: A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
 
-- run the test function:
+- Run the test function:
 
 ```bash
 > isosim_test()
@@ -100,19 +100,19 @@ Note: this script also requires the package vioplot (see [Installation](#install
 
 To run flux calculations on the **example network** and reproduce **Figure 3** (panels B and C) and **Figure 4** (panels B and C):
 
-- go to the example directory, e.g.:
+- Go to the example directory, e.g.:
 
 ```bash
 $ cd /home/usr/isosim/models/example_network/
 ```
 
-- open an R console:
+- Open an R console:
 
 ```bash
 $ R
 ```
 
-- run the example file:
+- Run the example file:
 
 ```bash
 > source("example_network.R")
@@ -124,19 +124,19 @@ All output files should be in a `res` folder of the example directory (here `/ho
 
 To run flux calculations on the **prenyl pyrophosphate biosynthetic pathway** and reproduce **Figure 5** (panels B-E):
 
-- go to the example directory, e.g.:
+- Go to the example directory, e.g.:
 
 ```bash
 $ cd /home/usr/isosim/models/prenylpyrophosphate_pathway/
 ```
 
-- open an R console:
+- Open an R console:
 
 ```bash
 $ R
 ```
 
-- run the example file:
+- Run the example file:
 
 ```bash
 > source("example_prenylpyrophosphate.R")
