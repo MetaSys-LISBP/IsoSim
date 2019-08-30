@@ -147,13 +147,13 @@ expected behaviour (e.g. assuming the modeled system operates at metabolic stead
                 "Sout_1-M1" = "1.0+0.0*t")
 ```
 
-Each element should contain the time-dependent analytical function of an isotopologue of all EMUs of label inputs, with the appropriate name `X_Y-Z-Mn`, 
-where `X` (str) is the metabolite name, `Y` (int) (and `Z`) is (are) the carbon atom(s) contained in the corresponding EMU, and `n` (int) is the weight of the corresponding isotopologue. 
+Each element contains the time-dependent analytical function of a given isotopologue of each EMUs of label inputs, with the appropriate name `X_Y-Mn` (`X_Y-Z-Mn`), 
+where `X` (str) is the metabolite name, `Y` (int) (and `Z` if this EMU contains several tracer atoms) is (are) the tracer atom(s) contained in the corresponding EMU, and `n` (int) is the weight of the corresponding isotopologue. 
 The list of all label input EMUs isotopologues required to perform simulations is automatically identified when constructing the model (see `net$min_meas`).
 
 Note: All the analytical functions *must* contain the time variable `t`, even if the label input(s) is (are) constant.
 			  
-- Set initial values of fluxes and metabolite concentrations:
+- Initialize fluxes and metabolite concentrations:
 
 ```bash
 > fluxes <- c("v1"=2,
@@ -214,7 +214,9 @@ in a folder `sim`.
 
 ## Fit label inputs
 
-- Experimental labeling dynamics of label input(s) to fit (here we fit the theoretical dynamics of the mean enrichment of C):
+- Define the experimental labeling dynamics of label input(s) to fit:
+
+Here, we fit the theoretical dynamics of the mean enrichment of C.
 
 ```bash
 > enr_input <- res$res_dyn$enrichments[, "C_1", drop=FALSE]
