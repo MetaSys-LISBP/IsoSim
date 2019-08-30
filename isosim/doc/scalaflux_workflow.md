@@ -25,7 +25,7 @@ $ R
 > source("isosim.R")
 ```
 
-*Note:* A message will appear if some of the required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
+Note: A message will appear if some of the required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
 
 
 ## Parallelization options
@@ -132,7 +132,7 @@ expected behaviour (e.g. metabolite concentrations and fluxes should be constant
 Each element should contain the time-dependent analytical function of an isotopologue of all EMUs of label inputs, with the corresponding name. The required list 
 of label input EMUs isotopologues is automatically identified when constructing the model (see `net$min_meas`).
 
-Note: all the analytical functions *must* contain the time variable `t`, even if the label input(s) is (are) constant
+Note: All the analytical functions *must* contain the time variable `t`, even if the label input(s) is (are) constant.
 			  
 - Set initial values of fluxes and metabolite concentrations:
 
@@ -170,7 +170,7 @@ in a folder `sim`.
 - Experimental labeling dynamics of label input(s) to fit (here we fit the theoretical labeling dynamics of C):
 
 ```bash
-> enr_input <- res$res_dyn$enrichments[, "C_1"]
+> enr_input <- res$res_dyn$enrichments[, "C_1", drop=FALSE]
 ```
 
 - Fit labeling dynamics using analytical functions:
@@ -230,23 +230,23 @@ list:
 To calculate fluxes for a single subsystems with:
 
 ```bash
-> res_sub <- fit_subsystem(subsystem_1)
+> res_sub <- fit_subsystems(subsystem_1)
 ```
 
-if you want to calculate fluxes for all subsystems at once:
+To calculate fluxes for all subsystems at once, pass the list of all subsystems to analyze:
 
 ```bash
-> res_subs <- fit_subsystems(subsystems, dirname="fit_subsystems", mc.cores=numCores)
+> res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
 ```
 
-- Save a summary of the flux calculation results:
+- Save the flux calculation results:
 
 ```bash
 > list2file(res_sub$summary, file="summary_minimal_subsystems.txt")
 ```
 
-- Display the flux calculation results:
+- Display results:
 
 ```bash
-> print()
+> print(res_sub$summary)
 ```

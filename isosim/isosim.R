@@ -1893,25 +1893,35 @@ fit_subsystems <- function(subsystems, dirname="fit_subsystems", mc.cores=NULL){
   #   Flux calculation results for all subsystems.
   #
   
-  # create results directory
-  mainDir <- getwd()
-  if (!file.exists(dirname)){
-    dir.create(file.path(mainDir, dirname))
-  }
-  setwd(file.path(mainDir, dirname))
-  
-  # estimate fluxes for all subsystems
-  if (is.null(mc.cores)){
-    res_fluxes <- lapply(subsystems, fit_subsystem)
+  # if there is only one subsystem, use the corresponding function
+  if (("name" %in% names(subsystems)) & ("rxn_subnet" %in% names(subsystems))){
+    
+    res_fluxes <- fit_subsystem(subsystems)
+    res_subsystems <- res_fluxes$sens$summary
+    
   }else{
-    res_fluxes <- mclapply(subsystems, fit_subsystem, mc.cores=mc.cores)
+  
+    # create results directory
+    mainDir <- getwd()
+    if (!file.exists(dirname)){
+      dir.create(file.path(mainDir, dirname))
+    }
+    setwd(file.path(mainDir, dirname))
+    
+    # estimate fluxes for all subsystems
+    if (is.null(mc.cores)){
+      res_fluxes <- lapply(subsystems, fit_subsystem)
+    }else{
+      res_fluxes <- mclapply(subsystems, fit_subsystem, mc.cores=mc.cores)
+    }
+    
+    # get summary
+    res_subsystems <- lapply(lapply(res_fluxes, "[[", 6), "[[", 1)
+    
+    # go back to the initial working directory
+    setwd(mainDir)
+    
   }
-  
-  # get summary
-  res_subsystems <- lapply(lapply(res_fluxes, "[[", 6), "[[", 1)
-  
-  # go back to the initial working directory
-  setwd(mainDir)
   
   # return results
   return(list(res=res_fluxes, summary=res_subsystems))
