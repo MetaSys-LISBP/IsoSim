@@ -3,7 +3,7 @@
 This documentation describes a typical workflow to quantify fluxes in metabolic subnetworks 
 using the ScalaFlux approach.
 
-IsoSim must be installed beforehand. Have a look [here](https://github.com/MetaSys-LISBP/IsoSim) for installation instructions.
+IsoSim must be installed beforehand. Have a look [here](https://github.com/MetaSys-LISBP/IsoSim#installation) for installation instructions.
 
 ## Load IsoSim
 
