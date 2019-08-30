@@ -43,8 +43,8 @@ All results will be saved in your current working directory. To create a subfold
 
 The overall computation time can be reduced by executing some calculations in parallel, i.e. simultaneously.
 
-Parallelization options can be adapted with the variable `numCores` (int), which represents the number of CPU cores 
-to use in parallel.
+Parallelization options can be adapted with the variable `numCores` (int), which represents the maximal number of CPU cores 
+which can be used in parallel by IsoSim.
 
 To use only one core (i.e. no parallelization):
 
@@ -87,7 +87,7 @@ network (list):
   $T (vector): tracer atom transitions
 ```
 
-For instance, to construct the model of the example network provided in figure 1A of ScalaFlux publication:
+For instance, the model of the example network provided in figure 1A of ScalaFlux publication is:
   
 ```bash
 > rxn <- list(r1     = list("R"=c("Sout", "Sin"), "C"=c(-1, 1),     "E"="v1",   "T"=c("A", "A")),
@@ -144,22 +144,25 @@ free fluxes or to estimate other variables used during calculations.
 
 ## Simulate labeling dynamics
 
-Once you have constructed the model, we strongly encourage you to run some simulations and to verify that simulation results correspond to the 
-expected behaviour (e.g. assuming the modeled system operates at metabolic steady-state, metabolite concentrations and fluxes should be constant).
+Once you have constructed the model, we strongly encourage you to run simulations and to verify that the simulation results are consistent with the 
+expected behaviour (e.g. assuming the investigated system operates at metabolic steady-state, metabolite concentrations and fluxes should be constant).
 
-- Define the labeling dynamics of label input(s) (here S<sub>out</sub>) using analytical functions 
-(here we simulate a switch from unlabeled to fully-labeled nutrient)
+- Define the labeling dynamics of label input(s) (here S<sub>out</sub>) using analytical functions:
+
+For instance, to simulate a switch from unlabeled to fully-labeled nutrient:
 
 ```bash
 > anFun <- list("Sout_1-M0" = "0.0+0.0*t",
                 "Sout_1-M1" = "1.0+0.0*t")
 ```
 
-Each element contains the time-dependent analytical function of a given isotopologue of each EMUs of label inputs, with the appropriate name `X_Y-Mn` (`X_Y-Z-Mn`), 
-where `X` (str) is the metabolite name, `Y` (int) (and `Z` if this EMU contains several tracer atoms) is (are) the tracer atom(s) contained in the corresponding EMU, and `n` (int) is the weight of the corresponding isotopologue. 
-The list of all label input EMUs isotopologues required to perform simulations is automatically identified when constructing the model (see `net$min_meas`).
+Each element of this list is a (time-dependent) analytical function of a given isotopologue of all EMUs of label input(s), with the appropriate name `X_Y-Mn` (`X_Y-Z-Mn`), 
+where `X` (str) is the metabolite name, `Y` (int) (and all other `Z` tracer atoms contained in this EMU) is (are) the tracer atom(s) contained in the corresponding EMU, 
+and `n` (int) is the weight of the corresponding isotopologue. 
+The list of all label input EMUs isotopologues required to perform the simulations is automatically identified by IsoSim during model construction and can be found 
+in `net$min_meas`.
 
-Note: All the analytical functions *must* contain the time variable `t`, even if the label input(s) is (are) constant.
+Note: All the analytical functions *must* contain the time variable `t`, even if the corresponding label input(s) is (are) constant.
 			  
 - Initialize fluxes and metabolite concentrations:
 
@@ -196,7 +199,13 @@ and
 
 - Define simulation times:
 
-For instance, to simulate an exponential sampling frequency from 0 to 15 min defined `times` as:
+For instance, to simulate label propagation from t=0 to 100, with time steps of 1:
+
+```bash
+> times <- seq(0, 100, by=1)
+```
+
+As another example, to simulate an exponential sampling frequency from t=0 to 15:
 
 ```bash
 > times <- round(10**(seq(0, log10(16), length.out=30))-1, 2)
@@ -216,18 +225,31 @@ For instance, to simulate an exponential sampling frequency from 0 to 15 min def
                   times     = times)
 ```
 			  
-All simulation results (time course concentrations of metabolites, fluxes, isotopologue abundances and isotopic enrichments of all EMUs) are saved 
-in a folder `sim`.
+Simulation results are saved in subfolder `sim`:
+
+  - `plot.pdf`: plot of time-course concentrations of metabolites, fluxes, isotopologue abundances and isotopic enrichments of all EMUs
+  
+  - `lib_f.f`:  FORTRAN code of the model used to compile the dynamic library
+  
+  - `res.txt`:  complete simulation results
 
 
 ## Fit label inputs
 
-- Define the experimental labeling dynamics of label input(s) to fit:
+- Define the experimental labeling dynamics of label input(s) EMU(s) to fit:
 
-Here, we fit the theoretical dynamics of the mean enrichment of C.
+Experimental labeling dynamics of label input(s) EMU(s) should be provided as a matrix containing mean isotopic enrichments of each label input (column) at each time (row).
+
+Here, to process the time-course mean enrichment of C:
 
 ```bash
 > enr_input <- res$res_dyn$enrichments[, "C_1", drop=FALSE]
+```
+
+Several label inputs can also be selected. For instance, to select C and O:
+
+```bash
+> enr_input <- res$res_dyn$enrichments[, c("C_1", "O_1")]
 ```
 
 - Fit labeling dynamics using analytical functions:
@@ -235,6 +257,12 @@ Here, we fit the theoretical dynamics of the mean enrichment of C.
 ```bash
 > enr_in <- fit_label_input(enr_input, t=times, file="res_fit_enr_C", mc.cores=numCores)
 ```
+
+Results are saved in subfolder `fit_input`:
+
+  - `res_fit_enr_X_Y[-Z].pdf`: plot of exp. vs fitted labeling dynamics of the EMU `Y[-Z]` of metabolite `X`
+  
+  - `res_fit_enr_X_Y[-Z].txt`: detailed results, including analytical functions
 
 ## Calculate fluxes
 
@@ -298,7 +326,15 @@ Or pass the list of subsystems to analyze all of them at once:
 > res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
 ```
 
-- Save the flux calculation results:
+Flux calculation results are saved in subfolder `fit_subnet_n` (where `n` is the name of the subsystem, e.g. `subsystem_1$name`):
+
+  - `results.pdf`: plot of exp. vs fitted labeling dynamics of all metabolites
+  
+  - `lib_f_n.f`:  FORTRAN code of the model used to compile the dynamic library
+  
+  - `res.txt`:  complete flux calculation results
+
+- Save the complete flux calculation results:
 
 To save detailed results (containing the network structure, experimental and fitted data, etc), run:
 
