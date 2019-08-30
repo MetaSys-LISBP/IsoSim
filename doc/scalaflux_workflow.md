@@ -27,6 +27,17 @@ $ R
 
 Note: A message will appear if some of the required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
 
+## Create results directory
+
+All results will be saved in the working directory. To gather all results in a given subfolder (here `res_wf`):
+
+```bash
+> wd <- "C:/Users/millard/Documents/GIT/IsoSim/IsoSim/models/example_network"
+> res_folder <- "res_wf"
+> setwd(wd)
+> if (!file.exists(res_folder)) {dir.create(file.path(wd, res_folder))}
+> setwd(file.path(wd, res_folder))
+```
 
 ## Parallelization options
 
@@ -227,26 +238,42 @@ list:
 
 - Calculate fluxes:
 
-To calculate fluxes for a single subsystems with:
+Calculate fluxes for a single subsystems with:
 
 ```bash
 > res_sub <- fit_subsystems(subsystem_1)
 ```
 
-To calculate fluxes for all subsystems at once, pass the list of all subsystems to analyze:
+Or pass the list of subsystems to analyze all of them at once:
 
 ```bash
 > res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
 ```
 
-- Save the flux calculation results:
+- Save flux calculation results:
+
+To save detailed results (containing the network structure, experimental and fitted data, etc), run:
+
+```bash
+> list2file(res_sub, file="results_minimal_subsystems.txt")
+```
+
+To save only results summary (estimated fluxes with their statistics), run:
 
 ```bash
 > list2file(res_sub$summary, file="summary_minimal_subsystems.txt")
 ```
 
-- Display results:
+- Display results summary:
 
 ```bash
 > print(res_sub$summary)
 ```
+
+## Return to the initial working directory
+
+```bash
+> setwd(wd)
+```
+
+
