@@ -35,7 +35,7 @@ To install all the packages required by IsoSim, run the following command in an 
 > install.packages(c("nnls", "numDeriv", "Matrix", "deSolve", "stringr", "RColorBrewer", "pso", "parallel"))
 ```
 
-*Note:* to analyse the network provided as [example 1](#1-example-network), you will also need the package vioplot, which can be installed with this command:
+Note: to analyse the network provided as [example 1](#1-example-network), you will also need the package vioplot, which can be installed with this command:
 
 ```bash
 > install.packages("vioplot")
@@ -61,7 +61,7 @@ $ R
 > source("isosim.R")
 ```
 
-*Note:* A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
+Note: A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
 
 - run the test function:
 
@@ -77,20 +77,25 @@ Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker]
 
 ## ScalaFlux: Scalable <sup>13</sup>C-metabolic flux analysis
 
-We have implemented the [ScalaFlux approach](https://www.biorxiv.org/content/10.1101/735308v1) in IsoSim to quantity fluxes in metabolic subnetworks. As illustrative examples, we have analysed two metabolic systems:
+We have implemented the [ScalaFlux approach](https://www.biorxiv.org/content/10.1101/735308v1) in IsoSim to quantity fluxes in metabolic subnetworks.
+
+A documentation describing a typical workflow to quantify fluxes in metabolic subnetworks 
+using the ScalaFlux approach implemented in IsoSim is provided in [`docs/scalaflux_workflow.md`](docs/scalaflux_workflow.md).
+
+We have also analyzed two metabolic systems as illustrative examples:
 
 - a theoretical network (shown in Figure 1A of [ScalaFlux](https://www.biorxiv.org/content/10.1101/735308v1) publication)
 
 - the yeast prenyl pyrophosphate pathway (shown in Figure 5A of [ScalaFlux](https://www.biorxiv.org/content/10.1101/735308v1) publication)
 
-The code used to perform the calculations detailed in the publication is provided in this repository. To run the calculations, download 
+The code used to perform the calculations detailed in the publication is provided in the `models` folder of this repository. To run the calculations, download 
 the current repository and follow the instructions provided below.
 
-*Note:* folders `isosim` and `models` should be in the same directory.
+Note: folders `isosim` and `models` should be in the same directory.
 
 #### 1. Example network
 
-*Note:* this script also requires the package vioplot (see [Installation](#installation)).
+Note: this script also requires the package vioplot (see [Installation](#installation)).
 
 To run flux calculations on the **example network** and reproduce **Figure 3** (panels B and C) and **Figure 4** (panels B and C):
 
