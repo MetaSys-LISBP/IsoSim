@@ -227,11 +227,11 @@ expected behaviour (e.g. assuming the investigated system operates at metabolic 
   			  
 Simulation results are saved in subfolder `sim`:
 
-.`plot.pdf`: plot of time-course concentrations of metabolites, fluxes, isotopologue abundances and isotopic enrichments of all EMUs
+  `plot.pdf`: plot of time-course concentrations of metabolites, fluxes, isotopologue abundances and isotopic enrichments of all EMUs
   
-.`lib_f.f`:  FORTRAN code of the model used to compile the dynamic library
+  `lib_f.f`:  FORTRAN code of the model used to compile the dynamic library
  
-.`res.txt`:  complete simulation results
+  `res.txt`:  complete simulation results
 
 
 ## Fit label inputs
