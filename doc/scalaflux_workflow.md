@@ -260,9 +260,9 @@ Simulation results are saved in subfolder `sim`:
   
 Results are saved in subfolder `res_fit_enr`:
 
-  - `res_fit_enr_X_Y[-Z].pdf`: plot of exp. vs fitted labeling dynamics of the EMU `Y[-Z]` of metabolite `X`
+  `res_fit_enr_X_Y[-Z].pdf`: plot of exp. vs fitted labeling dynamics of the EMU `Y[-Z]` of metabolite `X`
   
-  - `res_fit_enr_X_Y[-Z].txt`: detailed results, including analytical functions
+  `res_fit_enr_X_Y[-Z].txt`: detailed results, including analytical functions
 
 ## Calculate fluxes
 
@@ -329,11 +329,11 @@ Results are saved in subfolder `res_fit_enr`:
 
   Flux calculation results are saved in subfolder `fit_subnet_n` (where `n` is the name of the subsystem, e.g. `subsystem_1$name`):
 
-  - `results.pdf`: plot of exp. vs fitted labeling dynamics of all metabolites
+  `results.pdf`: plot of exp. vs fitted labeling dynamics of all metabolites
   
-  - `lib_f_n.f`:  FORTRAN code of the model used to compile the dynamic library
+  `lib_f_n.f`:  FORTRAN code of the model used to compile the dynamic library
   
-  - `res.txt`:  complete flux calculation results
+  `res.txt`:  complete flux calculation results
 
 - Save the complete flux calculation results:
 

@@ -29,53 +29,53 @@ R can be downloaded online at http://cran.r-project.org/ and must be installed m
 download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/) (Rtools should also be in the *PATH* variable of your system, see [Rtools documentation](https://cran.r-project.org/bin/windows/Rtools/) for details). On Mac, install the [Xcode command line tools](https://developer.apple.com/downloads). 
 On Linux, install the R development package, usually called `r-devel` or `r-base-dev`.
 
-To install all the packages required by IsoSim, run the following command in an R console:
+- To install all the packages required by IsoSim, run the following command in an R console:
 
-```bash
-> install.packages(c("nnls", "numDeriv", "Matrix", "deSolve", "stringr", "RColorBrewer", "pso", "parallel"))
-```
-
-Note: to analyse the network provided as [example 1](#1-example-network), you will also need the package vioplot, which can be installed with this command:
-
-```bash
-> install.packages("vioplot")
-```
-
-To verify that IsoSim works correctly on your system:
+  ```bash
+  > install.packages(c("nnls", "numDeriv", "Matrix", "deSolve", "stringr", "RColorBrewer", "pso", "parallel"))
+  ```
   
-- Go to IsoSim directory, e.g.:
-
-```bash
-$ cd /home/usr/isosim/isosim/
-```
-
-- Open an R console:
-
-```bash
-$ R
-```
-
-- Load IsoSim:
-
-```bash
-> source("isosim.R")
-```
-
-Note: A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
-
-- Run the test function:
-
-```bash
-> isosim_test()
-```
-
-This function builds a test model (network shown in Figure 1A of IsoSim publication), simulates labeling kinetics, and recalculates some fluxes from this theoretical dataset. Most of 
-the practical situations and features should be covered by these tests.
-
-A folder `test` containing all the results should be created in the working directory (here `/home/usr/isosim/isosim/test/`), and no error should be displayed.
-If an error is displayed at the compilation step, check that the set of R development tools is correctly installed. 
-Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker](https://github.com/MetaSys-LISBP/IsoSim/issues) for other problems.
-
+  Note: to analyse the network provided as [example 1](#1-example-network), you will also need the package vioplot, which can be installed with this command:
+  
+  ```bash
+  > install.packages("vioplot")
+  ```
+  
+- To verify that IsoSim works correctly on your system:
+  
+  - Go to IsoSim directory, e.g.:
+  
+    ```bash
+    $ cd /home/usr/isosim/isosim/
+    ```
+  
+  - Open an R console:
+  
+    ```bash
+    $ R
+    ```
+  
+  - Load IsoSim:
+  
+    ```bash
+    > source("isosim.R")
+    ```
+    
+  Note: A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
+  
+  - Run the test function:
+  
+    ```bash
+    > isosim_test()
+    ```
+    
+    This function builds a test model (network shown in Figure 1A of IsoSim publication), simulates labeling kinetics, and recalculates some fluxes from this theoretical dataset. Most of 
+    the practical situations and features should be covered by these tests.
+  
+  A folder `test` containing all the results should be created in the working directory (here `/home/usr/isosim/isosim/test/`), and no error should be displayed.
+  If an error is displayed at the compilation step, check that the set of R development tools is correctly installed. 
+  Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker](https://github.com/MetaSys-LISBP/IsoSim/issues) for other problems.
+  
 ## ScalaFlux: Scalable <sup>13</sup>C-metabolic flux analysis
 
 We have implemented the [ScalaFlux approach](https://doi.org/10.1101/735308) in IsoSim to quantity fluxes in metabolic subnetworks.
@@ -102,22 +102,22 @@ To run flux calculations on the **example network** and reproduce **Figure 3** (
 
 - Go to the example directory, e.g.:
 
-```bash
-$ cd /home/usr/isosim/models/example_network/
-```
-
+  ```bash
+  $ cd /home/usr/isosim/models/example_network/
+  ```
+  
 - Open an R console:
 
-```bash
-$ R
-```
-
+  ```bash
+  $ R
+  ```
+  
 - Run the example file:
 
-```bash
-> source("example_network.R")
-```
-
+  ```bash
+  > source("example_network.R")
+  ```
+  
 All output files should be in a `res` folder of the example directory (here `/home/usr/isosim/models/example_network/res/`).
 
 #### 2. Prenyl pyrophosphate biosynthetic pathway
@@ -126,22 +126,22 @@ To run flux calculations on the **prenyl pyrophosphate biosynthetic pathway** an
 
 - Go to the example directory, e.g.:
 
-```bash
-$ cd /home/usr/isosim/models/prenylpyrophosphate_pathway/
-```
-
+  ```bash
+  $ cd /home/usr/isosim/models/prenylpyrophosphate_pathway/
+  ```
+  
 - Open an R console:
 
-```bash
-$ R
-```
-
+  ```bash
+  $ R
+  ```
+  
 - Run the example file:
 
-```bash
-> source("example_prenylpyrophosphate.R")
-```
-
+  ```bash
+  > source("example_prenylpyrophosphate.R")
+  ```
+  
 All output files should be in a `res` folder of the example directory (here `/home/usr/isosim/models/prenylpyrophosphate_pathway/res/`).
 
 ## How to cite
@@ -154,9 +154,9 @@ Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). Sca
 
 [Pierre Millard](https://orcid.org/0000-0002-8136-9963), INRA
 
-[MetaSys Team](http://www.toulouse-biotechnology-institute.fr/en/research/molecular-physiology-and-metabolism/metasys.html)
+  [MetaSys Team](http://www.toulouse-biotechnology-institute.fr/en/research/molecular-physiology-and-metabolism/metasys.html)
 
-[Toulouse Biotechnology Institute](https://www.lisbp.fr/en/index.html), France
+  [Toulouse Biotechnology Institute](https://www.lisbp.fr/en/index.html), France
 
 ## Contact
 
