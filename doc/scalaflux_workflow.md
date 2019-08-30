@@ -41,21 +41,29 @@ All results will be saved in your current working directory. To create a subfold
 
 ## Parallelization options
 
-Flux calculation can be fasten by parallelizing the calculation.
+The overall computation time can be reduced by executing some calculations in parallel, i.e. simultaneously.
 
 Parallelization options can be adapted with the variable `numCores` (int), which represents the number of CPU cores 
 to use in parallel.
-
-To use all available CPU cores on the current host:
-
-```bash
-> numCores <- detectCores()
-```
 
 To use only one core (i.e. no parallelization):
 
 ```bash
 > numCores <- NULL
+```
+
+To use two core:
+
+```bash
+> numCores <- 2
+```
+
+The maximum number of processes that can run at a time is limited by the number of CPU cores on the current host. 
+If want to use all of them, use the `detectCores()` function: 
+
+```bash
+> cat("IsoSim will use", detectCores(), "CPU cores.\n", sep=" ")
+> numCores <- detectCores()
 ```
 
 ## Sensitivity analysis options
