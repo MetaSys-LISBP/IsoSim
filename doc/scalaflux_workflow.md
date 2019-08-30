@@ -29,7 +29,7 @@ Note: A message will appear if some of the required packages are missing. In thi
 
 ## Create results directory
 
-All results will be saved in your current working directory. To gather all results in a given subfolder (here `res_wf`):
+All results will be saved in your current working directory. To create a subfolder (here `res_wf`) gathering all results:
 
 ```bash
 > wd <- "C:/Users/millard/Documents/GIT/IsoSim/IsoSim/models/example_network"
