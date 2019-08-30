@@ -1,17 +1,13 @@
 # millard@insa-toulouse.fr
 #
-# Toolbox for modelling of isotopic and/or metabolic dynamics.
+# IsoSim: stoichiometric, kinetic and isotopic modeling of metabolic systems
 #
-# Some R packages (nnls, numDeriv, Matrix, deSolve, stringr, pso, parallel and RColorBrewer) are
-# required. They can be installed automatically by running the following command in an R console:
+# https://github.com/MetaSys-LISBP/IsoSim
 #
-#     install.packages(c("nnls", "numDeriv", "Matrix", "deSolve", "stringr", "pso", "RColorBrewer", "parallel"))
-#
-# Rtools must be installed manually.
+# https://doi.org/10.1101/735308
 #
 # Copyright 2019, INRA, France
 # License: GNU General Public License v3 (see license.txt for details)
-
 
 isosimVersion = "2.0.0"
 
@@ -1942,12 +1938,11 @@ isosim_test <- function(){
   cat("
 Welcome to IsoSim!
       
-This function tests the different features of IsoSim
-(construction of isotopic models, simulation of labeling
-dynamics, flux calculation using the ScalaFlux approach).
+This function tests different features of IsoSim:
 
-Have a look to the code (by running 'isosim_test' in R) for
-detailed examples of IsoSim usage.
+- construction of isotopic models
+- simulation of labeling dynamics
+- flux calculation using the ScalaFlux approach
 
 ")
   

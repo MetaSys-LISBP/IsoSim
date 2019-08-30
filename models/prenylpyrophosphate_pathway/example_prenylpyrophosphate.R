@@ -1,19 +1,16 @@
 # millard@insa-toulouse.fr
 #
-# This code performs flux calculation for the yeast prenyl pyrophosphate pathway,
-# as detailed in the following publication:
+# IsoSim: stoichiometric, kinetic and isotopic modeling of metabolic systems
 #
-#   ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks
+# https://github.com/MetaSys-LISBP/IsoSim
 #
-#   by P. Millard, U. Schmidt, P. Kiefer, J. Vorholt, S. Heux, and J.C. Portais
+# https://doi.org/10.1101/735308
 #
-# It also generates Figure 5.
-# 
 # Copyright 2019, INRA, France
 # License: GNU General Public License v3 (see license.txt for details)
 
 ####################################
-    cat("
+cat("
 This code calculates the flux through the prenylpyrophosphate pathway of 
 three S. cerevisiae strains, as detailed in the ScalaFlux publication.
 
@@ -21,7 +18,6 @@ It also generates figure 5.
 
 ")
 ####################################
-
 
 ####################################
 cat("   ... initialize R environment ...\n\n")

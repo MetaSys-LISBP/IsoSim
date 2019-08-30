@@ -1,22 +1,18 @@
 # millard@insa-toulouse.fr
 #
-# This code performs flux calculation for the example network shown in Figure 1A
-# of the following publication:
+# IsoSim: stoichiometric, kinetic and isotopic modeling of metabolic systems
 #
-#   ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks
+# https://github.com/MetaSys-LISBP/IsoSim
 #
-#   by P. Millard, U. Schmidt, P. Kiefer, J. Vorholt, S. Heux, and J.C. Portais
+# https://doi.org/10.1101/735308
 #
-# It also generates Figure 3 and 4.
-# 
 # Copyright 2019, INRA, France
 # License: GNU General Public License v3 (see license.txt for details)
-
 
 ####################################
 cat("
 This code calculates fluxes through several subsystems of the
-network provided as example in the ScalaFlux publication.
+example network shown in figure 1A of the ScalaFlux publication.
 
 It also generates figures 3 and 4.
 
