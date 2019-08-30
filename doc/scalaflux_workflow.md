@@ -197,6 +197,8 @@ expected behaviour (e.g. assuming the investigated system operates at metabolic 
                    "P"=20)
   ```
   
+  Note: Concentration of all label input metabolites must be 1.
+  
 - Define simulation times:
 
   For instance, to simulate label propagation from t=0 to 100, with time steps of 1:
@@ -289,20 +291,20 @@ Results are saved in subfolder `res_fit_enr`:
   For instance, to estimate the flux through r8 based on the minimal subsystem S<sub>E</sub>:
   
   ```bash
-  > subsystem_1 <- list(name =             "S_E",
-                        rxn_subnet =       list(r8   = list("R"=c("C", "E"), "C"=c(-1, 1), "E"="v8", "T"=c("A", "A")),
+  > subsystem_1 <- list(name             = "S_E",
+                        rxn_subnet       = list(r8   = list("R"=c("C", "E"), "C"=c(-1, 1), "E"="v8", "T"=c("A", "A")),
                                                 rout = list("R"=c("E"),      "C"=c(-1),    "E"="v8", "T"=c("A"))),
                         meta_conc_subnet = c("C"=1, "G"=1.0, "E"=1.0),
-                        kp_subnet =        c("v8"=0.5),
-                        te_subnet =        c("v8", "E"),
-                        te_upc_subnet =    c("v8"=10, "E"=100),
-                        te_loc_subnet =    c("v8"=1e-4, "E"=0.01),
-                        sd_meas =          list(iso=0.02, conc=c("E"=0.01)),
-                        times =            times,
-                        enr_in =           enr_in,
-                        anFun =            NULL,
-                        niter =            mc_iter,
-                        mc.cores =         NULL,
+                        kp_subnet        = c("v8"=0.5),
+                        te_subnet        = c("v8", "E"),
+                        te_upc_subnet    = c("v8"=10, "E"=100),
+                        te_loc_subnet    = c("v8"=1e-4, "E"=0.01),
+                        sd_meas          = list(iso=0.02, conc=c("E"=0.01)),
+                        times            = times,
+                        enr_in           = enr_in,
+                        anFun            = NULL,
+                        niter            = mc_iter,
+                        mc.cores         = NULL,
                         data_meas_subnet = list(conc=c("E"=0.5), iso=cbind(times, "E_1"=res$res_dyn$enrichments[, "E_1"])))
   ```
   
