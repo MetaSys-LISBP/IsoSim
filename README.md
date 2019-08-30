@@ -148,7 +148,7 @@ All output files should be in a `res` folder of the example directory (here `/ho
 
 Thank you for using IsoSim and citing us in your work! It means a lot to us and encourages us to continue its development.
 
-Millard P., Schmidt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks. BioRxiv, DOI: [10.1101/735308](https://doi.org/10.1101/735308).
+Millard P., Schmitt U., Kiefer P., Vorholt J., Heux S., Portais J.C. (2019). ScalaFlux: a scalable approach to quantify fluxes in metabolic subnetworks. BioRxiv, DOI: [10.1101/735308](https://doi.org/10.1101/735308).
 
 ## Authors
 

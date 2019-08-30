@@ -299,7 +299,7 @@ Results are saved in subfolder `res_fit_enr`:
                         te_subnet        = c("v8", "E"),
                         te_upc_subnet    = c("v8"=10, "E"=100),
                         te_loc_subnet    = c("v8"=1e-4, "E"=0.01),
-                        sd_meas          = list(iso=0.02, conc=c("E"=0.01)),
+                        sd_meas          = list(iso=0.02, conc=c("E"=0.05)),
                         times            = times,
                         enr_in           = enr_in,
                         anFun            = NULL,
