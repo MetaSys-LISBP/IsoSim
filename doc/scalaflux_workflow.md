@@ -29,7 +29,7 @@ A message will appear if some of the required packages are missing. In this case
   
 ## Create results directory
 
-All results will be saved in your current working directory. To create a subfolder (here `res_wf`) gathering all results:
+By default, results will be saved in your current working directory. You can also gather all results in a new folder (here `res_wf`) of a specific directory with :
 
 ```bash
 > wd <- "/path/to/working/directory/"
@@ -271,19 +271,19 @@ Results are saved in subfolder `res_fit_enr`:
   ```bash
   subsystem (list):
     $name (str):                name of the subsystem
-    $rxn_subnet (list):         definition of the [subnetwork](#construct-a-metabolic-model) of interest
-    $meta_conc_subnet (vector): named vector of [initial metabolite concentrations](#simulate-labeling-dynamics)
-    $kp_subnet (vector):        named vector of [model parameters](#simulate-labeling-dynamics)
+    $rxn_subnet (list):         definition of the subnetwork of interest (see #construct-a-metabolic-model)
+    $meta_conc_subnet (vector): named vector of initial metabolite concentrations (see #simulate-labeling-dynamics)
+    $kp_subnet (vector):        named vector of model parameters (see #simulate-labeling-dynamics)
     $te_subnet (vector):        names of free parameters to estimate (can be model parameters and metabolite concentrations)
     $te_upc_subnet (vector):    named vector of upper bound constraints on free parameters
     $te_loc_subnet (vector):    named vector of lower bound constraints on free parameters
-    $data_meas_subnet (list):   experimental data to fit, using the same format as [label input data](#fit-label-inputs)
+    $data_meas_subnet (list):   experimental data to fit, using the same format as label input data (see #fit-label-inputs)
     $sd_meas (list):            standard deviations on experimental data to fit
     $times (vector):            simulation times (all measurement times *must* be included)
-    $enr_in (list):             list of fitted label inputs returned by `fit_label_input()`, as detailed [above](#fit-label-inputs)
-    $anFun (list):              [analytical functions](#simulate-labeling-dynamics) (if any, otherwise should be NULL and $enr_in is used)
-    $niter (int):               number of [Monte Carlo iterations](#sensitivity-analysis-options) for flux calculations
-    $mc.cores (int):            number of cores for [parallelization](#parallelization-options)
+    $enr_in (list):             list of fitted label inputs returned by `fit_label_input()`, as detailed above (see #fit-label-inputs)
+    $anFun (list):              analytical functions (see #simulate-labeling-dynamics), otherwise should be NULL and $enr_in is used
+    $niter (int):               number of Monte Carlo iterations (see #sensitivity-analysis-options) for flux calculations
+    $mc.cores (int):            number of cores for parallelization (see #parallelization-options)
   ```
   
   For instance, to estimate the flux through r8 based on the minimal subsystem S<sub>E</sub>:
