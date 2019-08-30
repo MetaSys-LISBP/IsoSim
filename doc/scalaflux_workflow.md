@@ -29,7 +29,7 @@ Note: A message will appear if some of the required packages are missing. In thi
 
 ## Create results directory
 
-All results will be saved in the working directory. To gather all results in a given subfolder (here `res_wf`):
+All results will be saved in your current working directory. To gather all results in a given subfolder (here `res_wf`):
 
 ```bash
 > wd <- "C:/Users/millard/Documents/GIT/IsoSim/IsoSim/models/example_network"
@@ -44,13 +44,18 @@ All results will be saved in the working directory. To gather all results in a g
 Flux calculation can be fasten by parallelizing the calculation.
 
 Parallelization options can be adapted with the variable `numCores` (int), which represents the number of CPU cores 
-to use in parallel. To use a 
-single-core version, set `numCores` to NULL.
+to use in parallel.
 
 To use all available CPU cores on the current host:
 
 ```bash
 > numCores <- detectCores()
+```
+
+To use only one core (i.e. no parallelization):
+
+```bash
+> numCores <- NULL
 ```
 
 ## Sensitivity analysis options
@@ -66,11 +71,13 @@ Number of Monte Carlo iterations for flux calculation:
 - Define carefully the topology of the metabolic subsystem to model, 
 using the following structure:
 
+```bash
 network (list):
   $R (vector): reactant(s)
   $C (vector): stoichiometric coefficient(s)
   $E (vector): rate law (can be a constant, a variable or an expression)
   $T (vector): tracer atom transitions
+```
 
 For instance, to construct the model of the example network provided in figure 1A of ScalaFlux publication:
   
