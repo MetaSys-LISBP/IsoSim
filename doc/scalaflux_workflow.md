@@ -156,8 +156,8 @@ For instance, to simulate a switch from unlabeled to fully-labeled nutrient:
                 "Sout_1-M1" = "1.0+0.0*t")
 ```
 
-Each element of this list is a (time-dependent) analytical function of a given isotopologue of all EMUs of label input(s), with the appropriate name `X_Y-Mn` (`X_Y-Z-Mn`), 
-where `X` (str) is the metabolite name, `Y` (int) (and all other `Z` tracer atoms contained in this EMU) is (are) the tracer atom(s) contained in the corresponding EMU, 
+Each element of this list is a (time-dependent) analytical function of a given isotopologue of a label input EMU, with the appropriate name `X_Y-Mn` (`X_Y-Z-Mn`), 
+where `X` (str) is the metabolite name, `Y` (int) (and all `Z`s) is (are) the position(s) of atom(s) of tracer element present in the corresponding EMU, 
 and `n` (int) is the weight of the corresponding isotopologue. 
 The list of all label input EMUs isotopologues required to perform the simulations is automatically identified by IsoSim during model construction and can be found 
 in `net$min_meas`.
@@ -236,17 +236,17 @@ Simulation results are saved in subfolder `sim`:
 
 ## Fit label inputs
 
-- Define the experimental labeling dynamics of label input(s) EMU(s) to fit:
+- Define the experimental labeling dynamics of label input(s):
 
-Experimental labeling dynamics of label input(s) EMU(s) should be provided as a matrix containing mean isotopic enrichments of each label input (column) at each time (row).
+Experimental labeling dynamics of label input(s) EMU(s) should be provided as a matrix containing mean molecular enrichments of each label input(s) EMU(s) (column) at each time (row).
 
-Here, to process the time-course mean enrichment of C:
+Here, to define the time-course mean enrichment of C as label input:
 
 ```bash
 > enr_input <- res$res_dyn$enrichments[, "C_1", drop=FALSE]
 ```
 
-Several label inputs can also be selected. For instance, to select C and O:
+Several label inputs can also be selected. For instance, to process C and O:
 
 ```bash
 > enr_input <- res$res_dyn$enrichments[, c("C_1", "O_1")]
@@ -255,10 +255,10 @@ Several label inputs can also be selected. For instance, to select C and O:
 - Fit labeling dynamics using analytical functions:
 
 ```bash
-> enr_in <- fit_label_input(enr_input, t=times, file="res_fit_enr_C", mc.cores=numCores)
+> enr_in <- fit_label_input(enr_input, t=times, file="res_fit_enr", mc.cores=numCores)
 ```
 
-Results are saved in subfolder `fit_input`:
+Results are saved in subfolder `res_fit_enr`:
 
   - `res_fit_enr_X_Y[-Z].pdf`: plot of exp. vs fitted labeling dynamics of the EMU `Y[-Z]` of metabolite `X`
   
@@ -266,26 +266,26 @@ Results are saved in subfolder `fit_input`:
 
 ## Calculate fluxes
 
-- Define the minimal subsystem(s) to analyze:
+- Define the subsystem(s) to analyze:
 
 ```bash
 subsystem (list):
-  $rxn_subnet (list):         definition of the subnetwork of interest, as detailed above
-  $meta_conc_subnet (vector): named vector of initial metabolite concentrations
-  $kp_subnet (vector):        named vector of model parameters
-  $te_subnet (vector):        free parameters to estimate (can be model parameters and metabolite concentrations)
+  $rxn_subnet (list):         definition of the [subnetwork](#construct-a-metabolic-model) of interest
+  $meta_conc_subnet (vector): named vector of [initial metabolite concentrations](#simulate-labeling-dynamics)
+  $kp_subnet (vector):        named vector of [model parameters](#simulate-labeling-dynamics)
+  $te_subnet (vector):        names of free parameters to estimate (can be model parameters and metabolite concentrations)
   $te_upc_subnet (vector):    named vector of upper bound constraints on free parameters
   $te_loc_subnet (vector):    named vector of lower bound constraints on free parameters
-  $data_meas_subnet (list):   experimental data to fit
+  $data_meas_subnet (list):   experimental data to fit, using the same format as [label input data](#fit-label-inputs)
   $sd_meas (list):            standard deviations on experimental data to fit
   $times (vector):            simulation times (all measurement times *must* be included)
-  $enr_in (list):             list of fitted label inputs returned by `fit_label_input()`
-  $anFun (list):              analytical functions (if any, otherwise should be NULL and $enr_in is used)
-  $niter (int):               number of Monte Carlo iterations for flux calculations
-  $mc.cores (int):            number of cores for parallelization
+  $enr_in (list):             list of fitted label inputs returned by `fit_label_input()`, as detailed [above](#fit-label-inputs)
+  $anFun (list):              [analytical functions](#simulate-labeling-dynamics) (if any, otherwise should be NULL and $enr_in is used)
+  $niter (int):               number of [Monte Carlo iterations](#sensitivity-analysis-options) for flux calculations
+  $mc.cores (int):            number of cores for [parallelization](#parallelization-options)
 ```
 
-The flux through r8 can be estimated based on the minimal subsystem `S_E` of the example network:
+For instance, to estimate the flux through r8 based on the minimal subsystem S<sub>E</sub>:
 
 ```bash
 > subsystem_1 <- list(name =             "S_E",
@@ -305,28 +305,29 @@ The flux through r8 can be estimated based on the minimal subsystem `S_E` of the
                       data_meas_subnet = list(conc=c("E"=0.5), iso=cbind(times, "E_1"=res$res_dyn$enrichments[, "E_1"])))
 ```
 
-If you want to calculate fluxes for different subsystems, conditions or replicates at once, just gather all the subsystems of interest into a 
+If you want to calculate fluxes for several subsystems, conditions or replicates at once, just gather the different subsystems/datasets into a 
 list:
 
 ```bash
-> subsystems <- list(subsystem_1 = subsystem_1, ...)
+> subsystems <- list(subsystem_1 = subsystem_1,
+                     ...)
 ```
 
 - Calculate fluxes:
 
-Calculate fluxes for a single subsystems with:
+  Calculate fluxes for a single subsystems with:
 
-```bash
-> res_sub <- fit_subsystems(subsystem_1)
-```
+  ```bash
+  > res_sub <- fit_subsystems(subsystem_1)
+  ```
 
-Or pass the list of subsystems to analyze all of them at once:
+  Or pass the list of subsystems to analyze all of them at once:
 
-```bash
-> res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
-```
+  ```bash
+  > res_sub <- fit_subsystems(subsystems, mc.cores=numCores)
+  ```
 
-Flux calculation results are saved in subfolder `fit_subnet_n` (where `n` is the name of the subsystem, e.g. `subsystem_1$name`):
+  Flux calculation results are saved in subfolder `fit_subnet_n` (where `n` is the name of the subsystem, e.g. `subsystem_1$name`):
 
   - `results.pdf`: plot of exp. vs fitted labeling dynamics of all metabolites
   
