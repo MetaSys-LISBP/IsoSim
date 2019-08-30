@@ -25,35 +25,39 @@ $ R
 > source("isosim.R")
 ```
 
-*Note:* A message will be displayed if some required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
+*Note:* A message will appear if some of the required packages are missing. In this case, follow the instructions to install the required package(s), then reload IsoSim.
 
 
-## Define parallelization options
+## Parallelization options
 
 Flux calculation can be fasten by parallelizing the calculation.
 
-Parallelization options can be adapted with the variable 'numCores'. To use a 
-single-core version can be used by setting 'numCores' to NULL, 
-here all CPU cores on the current host are used:
+Parallelization options can be adapted with the variable 'numCores' (int), which represents the number of CPU cores 
+to use in parallel. To use a 
+single-core version, set 'numCores' to NULL.
+
+To use all available CPU cores on the current host:
 
 numCores <- detectCores()
 
+## Sensitivity analysis options
+
 Number of Monte Carlo iterations for flux calculation:
 
-mc_iter <- 4
+mc_iter <- 10
 
-## Construct the isotopic model
+## Construct a metabolic model
 
-- define carefully the topology of the metabolic subsystem to model 
+- Define carefully the topology of the metabolic subsystem to model, 
 using the following structure:
 
-Network (list):
+network (list):
   $R (vector): reactant(s)
   $C (vector): stoichiometric coefficient(s)
   $E (vector): rate law (can be a constant, a variable or an expression)
   $T (vector): tracer atom transitions
 
-This network corresponds to the example network provided in figure 1A of ScalaFlux publication
+For instance, to construct the model of the example network provided in figure 1A of ScalaFlux publication:
   
 rxn <- list(r1     = list("R"=c("Sout", "Sin"), "C"=c(-1, 1),     "E"="v1",   "T"=c("A", "A")),
 		  r2     = list("R"=c("Sin", "A"),    "C"=c(-1, 1),     "E"="v2",   "T"=c("A", "A")),
@@ -78,8 +82,8 @@ rxn <- list(r1     = list("R"=c("Sout", "Sin"), "C"=c(-1, 1),     "E"="v1",   "T
 		  r20    = list("R"=c("P"),           "C"=c(-1),        "E"="v20",  "T"=c("A"))
 )
 
-- define additional analytical equations (optional), e.g. to calculate determined fluxes from 
-free fluxes, or to estimate other variables used during calculations.
+- Define additional analytical equations (optional), e.g. to calculate determined fluxes from 
+free fluxes or to estimate other variables used during calculations.
 
 eq_det <- c("v3 = v1-v2",
 		  "v5 = v6f-v6r",
@@ -98,30 +102,37 @@ eq_det <- c("v3 = v1-v2",
 		  "v19 = v18+v17",
 		  "v20 = v19")
 
-- construct the model (isotopic and stoichiometric matrices, identification of sources, sinks, label inputs, etc) using the 'net2mat()' function:
+- Construct the model (isotopic and stoichiometric matrices, identification of sources, sinks, label inputs, etc) with:
 
 net <- net2mat(rxn, add_eq=eq_det)
 
 ## Simulate labeling dynamics
 
-- define labeling dynamics of label input(s) (here Sout) using analytical functions (here we simulate a switch from unlabeled to fully-labeled nutrient)
+Once you have constructed the model, we strongly encourage you to run some simulations and to verify that simulation results correspond to the 
+expected behaviour (e.g. metabolite concentrations and fluxes should be constant, assuming the modeled system operates at metabolic steady-state).
 
-Note: all the analytical functions *must* contain the time variable 't', even if the label input(s) is (are) constant
+- Define the labeling dynamics of label input(s) (here Sout) using analytical functions 
+(here we simulate a switch from unlabeled to fully-labeled nutrient)
 
 anFun <- list("Sout_1-M0" = "0.0+0.0*t",
 			  "Sout_1-M1" = "1.0+0.0*t")
 
-- set initial values of fluxes and metabolite concentrations:
+Each element should contain the time-dependent analytical function of an isotopologue of all EMUs of label inputs, with the corresponding name. The required list 
+of label input EMUs isotopologues is automatically identified when constructing the model (see 'net$min_meas').
+
+Note: all the analytical functions *must* contain the time variable 't', even if the label input(s) is (are) constant
+			  
+- Set initial values of fluxes and metabolite concentrations:
 
 fluxes <- c("v1"=2, "v2"=1.5, "v6"=1.2, "v10"=1.0, "v6xch"=0.2)
 
 meta_conc <- c("Sout"=1, "Sin"=0.5, "A"=0.5, "B"=0.5, "C"=0.5, "D"=0.5, "E"=0.5, "F"=0.5, "G"=0.5, "H"=0.5, "I"=0.5, "J"=0.5, "K"=0.5, "L"=0.5, "M"=0.5, "N"=0.5, "O"=0.5, "P"=20)
 
-- define simulation times (here, exponential sampling frequency from 0 to 15 min):
+- Define simulation times (here to simulate an exponential sampling frequency from 0 to 15 min):
 
 times <- round(10**(seq(0, log10(16), length.out=30))-1, 2)
 
-- perform simulations:
+- Perform simulations:
 
 res <- simulate(net       = net,
 			  kp        = fluxes,
@@ -133,40 +144,40 @@ res <- simulate(net       = net,
 			  unloadDll = TRUE,
 			  times     = times)
 			  
-All simulation results (time course concentrations of metabolites, fluxes, isotopologue abundances and isotopic enrichments) are stored 
+All simulation results (time course concentrations of metabolites, fluxes, isotopologue abundances and isotopic enrichments of all EMUs) are saved 
 in a folder 'sim'.
 
 
 ## Fit label inputs
 
-- experimental labeling dynamics of label input(s) to fit (here we fit the theoretical labeling dynamics of C and O):
+- Experimental labeling dynamics of label input(s) to fit (here we fit the theoretical labeling dynamics of C):
 
-enr_input <- res$res_dyn$enrichments[, c("C_1", "O_1")]
+enr_input <- res$res_dyn$enrichments[, "C_1"]
 
-- fit labeling dynamics using analytical functions:
+- Fit labeling dynamics using analytical functions:
 
-enr_in <- fit_label_input(enr_input, t=times, file="res_fit_enr", mc.cores=numCores)
+enr_in <- fit_label_input(enr_input, t=times, file="res_fit_enr_C", mc.cores=numCores)
 
 ## Calculate fluxes
 
-- Define minimal subsystem(s) to analyze:
+- Define the minimal subsystem(s) to analyze:
 
-  # definition of minimal subsystems to analyze
-  # (here, fluxes and pools are estimated for two minimal subsystems - S_E and S_P - of the example network)
-  # subsystems (list):
-  #   $rxn_subnet (list): network definition (list), as detailed above
-  #   $meta_conc_subnet (vector): named vector of initial metabolite concentrations
-  #   $kp_subnet (vector): named vector of model parameters
-  #   $te_subnet (vector): free parameters to estimate (can be model parameters and metabolite concentrations)
-  #   $te_upc_subnet (vector): named vector of upper bound constraints on free parameters
-  #   $te_loc_subnet (vector): named vector of lower bound constraints on free parameters
-  #   $data_meas_subnet (list): experimental data to fit
-  #   $sd_meas (list): standard deviations on experimental data to fit
-  #   $times (vector): simulation times (all measurement times must be included)
-  #   $enr_in (list): list of fitted label inputs returned by 'fit_label_input()'
-  #   $anFun (list): analytical functions (if any, otherwise should be NULL)
-  #   $niter (int): number of Monte Carlo iterations for flux calculations
-  #   $mc.cores (int): number of cores for parallelization
+subsystem (list):
+  $rxn_subnet (list): network definition (list), as detailed above
+  $meta_conc_subnet (vector): named vector of initial metabolite concentrations
+  $kp_subnet (vector): named vector of model parameters
+  $te_subnet (vector): free parameters to estimate (can be model parameters and metabolite concentrations)
+  $te_upc_subnet (vector): named vector of upper bound constraints on free parameters
+  $te_loc_subnet (vector): named vector of lower bound constraints on free parameters
+  $data_meas_subnet (list): experimental data to fit
+  $sd_meas (list): standard deviations on experimental data to fit
+  $times (vector): simulation times (all measurement times must be included)
+  $enr_in (list): list of fitted label inputs returned by 'fit_label_input()'
+  $anFun (list): analytical functions (if any, otherwise should be NULL)
+  $niter (int): number of Monte Carlo iterations for flux calculations
+  $mc.cores (int): number of cores for parallelization
+
+The flux through r8 can be estimated based on the minimal subsystem 'S_E' of the example network:
 
 subsystem_1 <- list(name = "S_E",
 		  rxn_subnet = list(r8     = list("R"=c("C", "E"), "C"=c(-1, 1), "E"="v8",      "T"=c("A", "A")),
@@ -187,12 +198,11 @@ subsystem_1 <- list(name = "S_E",
 If you want to calculate fluxes for different subsystems, conditions or replicates at once, just gather all the subsystems of interest into a 
 list:
 
-subsystems <- list( subsystem_1=subsystem_1, ...)
-
+subsystems <- list(subsystem_1=subsystem_1, ...)
 
 - Calculate fluxes:
 
-calculate fluxes for a single subsystems with:
+To calculate fluxes for a single subsystems with:
 
 res_sub <- fit_subsystem(subsystem_1)
 
