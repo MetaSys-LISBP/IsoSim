@@ -79,10 +79,10 @@ Please refers to IsoSim code or submit a new issue to our [GitHub issue tracker]
 
 We have implemented the [ScalaFlux approach](https://doi.org/10.1101/735308) in IsoSim to quantity fluxes in metabolic subnetworks.
 
-A documentation describing a typical workflow to quantify fluxes in metabolic subnetworks 
-using the ScalaFlux approach implemented in IsoSim is provided in [`doc/scalaflux_workflow.md`](doc/scalaflux_workflow.md).
+A documentation describing a typical ScalaFlux workflow 
+using IsoSim is provided in [`doc/scalaflux_workflow.md`](doc/scalaflux_workflow.md).
 
-We have also analyzed two metabolic systems as illustrative examples:
+We also provide the code to analyze two metabolic systems:
 
 - a theoretical network (shown in Figure 1A of [ScalaFlux](https://doi.org/10.1101/735308) publication)
 
