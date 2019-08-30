@@ -32,7 +32,7 @@ A message will appear if some of the required packages are missing. In this case
 All results will be saved in your current working directory. To create a subfolder (here `res_wf`) gathering all results:
 
 ```bash
-> wd <- "C:/Users/millard/Documents/GIT/IsoSim/IsoSim/models/example_network"
+> wd <- "/path/to/working/directory/"
 > res_folder <- "res_wf"
 > setwd(wd)
 > if (!file.exists(res_folder)) {dir.create(file.path(wd, res_folder))}
@@ -166,7 +166,7 @@ expected behaviour (e.g. assuming the investigated system operates at metabolic 
   			  
 - Initialize fluxes and metabolite concentrations:
 
-```bash
+  ```bash
   > fluxes <- c("v1"=2,
                 "v2"=1.5,
                 "v6"=1.2,
