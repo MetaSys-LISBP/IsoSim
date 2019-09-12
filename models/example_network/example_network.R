@@ -52,10 +52,10 @@ setwd(file.path(wd, "res"))
 
 # number of cores to use in parallel, i.e. at most how many child processes will be run simultaneously
 # single-core version can be used by setting 'numCores' to NULL
-numCores <- 20
+numCores <- detectCores()
 
 # number of Monte Carlo iterations for flux calculation
-mc_iter <- 5
+mc_iter <- 4
 
 
 ####################################

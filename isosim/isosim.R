@@ -22,8 +22,8 @@ load_pack <- function(packages){
   # Args:
   #   packages (vector): names of packages to load
   #
-  # Returns (vector):
-  #   names of packages that could not be loaded
+  # Returns (list):
+  #   $err   names of packages that could not be loaded
   #
   err <- c()
   for (i in packages){
@@ -104,6 +104,7 @@ net2mat <- function(rxn, meas=NULL, fixed=NULL, add_eq=NULL){
   #   $fixed          sink metabolites ($in and $out for substrates and products, respectively, and
   #                   $user for those constrained by user - names passed in the vector 'fixed' -)
   #   $min_meas       minimal set of EMUs of source metabolites required to simulate measurements
+  #   $version        IsoSim version
   #
   
   # create stoichiometric model
@@ -226,7 +227,8 @@ net2mat <- function(rxn, meas=NULL, fixed=NULL, add_eq=NULL){
               min_meas    = min_meas,
               fixed       = list("in"   = Smodel$ext_in,
                                  "out"  = Smodel$ext_out,
-                                 "user" = Smodel$sinks)))
+                                 "user" = Smodel$sinks),
+              version     = isosimVersion))
 }
 
 
