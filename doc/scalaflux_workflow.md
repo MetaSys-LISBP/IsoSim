@@ -29,10 +29,10 @@ A message will appear if some of the required packages are missing. In this case
   
 ## Create results directory
 
-By default, results will be saved in your current working directory. You can also gather all results in a new folder (here `res_wf`) of a specific directory with :
+By default, results will be saved in your current working directory. You can also gather all results in a new folder (e.g. `res_wf`) of a specific directory (e.g. `/path/to/directory/`) with :
 
 ```bash
-> wd <- "/path/to/working/directory/"
+> wd <- "/path/to/directory/"
 > res_folder <- "res_wf"
 > setwd(wd)
 > if (!file.exists(res_folder)) {dir.create(file.path(wd, res_folder))}
@@ -43,10 +43,10 @@ By default, results will be saved in your current working directory. You can als
 
 The overall computation time can be reduced by executing some calculations in parallel, i.e. simultaneously.
 
-Parallelization options can be adapted with the variable `numCores` (int), which represents the maximal number of CPU cores 
+Parallelization options can be set with the variable `numCores` (int), which represents the maximal number of CPU cores 
 which can be used in parallel by IsoSim.
 
-To use only one core (i.e. no parallelization):
+To use only one core (i.e. no parallelization, all calculations are performed sequentially):
 
 ```bash
 > numCores <- NULL
@@ -76,7 +76,7 @@ Number of Monte Carlo iterations for flux calculation:
 
 ## Construct a metabolic model
 
-- Define carefully the topology of the metabolic subsystem to model, 
+- Define carefully the topology of the metabolic (sub)system to model, 
 using the following structure:
 
   ```bash
@@ -87,7 +87,7 @@ using the following structure:
     $T (vector): tracer atom transitions
   ```
   
-  For instance, the model of the example network provided in figure 1A of ScalaFlux publication is:
+  For instance, the model corresponding to the example network provided in figure 1A of ScalaFlux publication is:
     
   ```bash
   > rxn <- list(r1     = list("R"=c("Sout", "Sin"), "C"=c(-1, 1),     "E"="v1",   "T"=c("A", "A")),
@@ -238,17 +238,27 @@ Simulation results are saved in subfolder `sim`:
 
 ## Fit label inputs
 
+Once the metabolic model is constructed, the next step consists in defining analytical functions of label inputs to calculate fluxes. Labeling data of a metabolite `X` are defined as `X_Y[-Z]-Mx`, where x denotes the isotopologue weight and `Y[-Z]` corresponds to the EMU containing the atom `Y` (and all other `Z` atoms) of tracer element.
+ 
+- All label input EMUs required to calculate fluxes in a given (sub)network are automatically identify when constructing the model. For instance, label inputs of the example network are `Sout_1-M0` and `Sout_1-M1`:
+
+  ```bash
+  > net$min_meas
+  ```
+
+In the following section, we will calculate the flux v8 based on the subsystem S<sub>E</sub> of the example network, wich has one label input EMU (`C_1`). Flux calculation will be carried out using the theoretical labeling dynamics.
+
 - Define the experimental labeling dynamics of label input(s):
 
   Experimental labeling dynamics of label input(s) EMU(s) should be provided as a matrix containing mean molecular enrichments of each label input(s) EMU(s) (column) at each time (row).
   
-  Here, to define the time-course mean enrichment of C as label input:
+  Here, to define the simulated time-course mean enrichment of `C_1` as label input:
   
   ```bash
   > enr_input <- res$res_dyn$enrichments[, "C_1", drop=FALSE]
   ```
   
-  Several label inputs can also be selected. For instance, to process C and O:
+  Several label inputs can also be selected. For instance, to process `C_1` and `O_1`:
   
   ```bash
   > enr_input <- res$res_dyn$enrichments[, c("C_1", "O_1")]
@@ -280,7 +290,11 @@ Results are saved in subfolder `res_fit_enr`:
     $te_upc_subnet (vector):    named vector of upper bound constraints on free parameters
     $te_loc_subnet (vector):    named vector of lower bound constraints on free parameters
     $data_meas_subnet (list):   experimental data to fit, using the same format as label input data (see #fit-label-inputs)
+      $conc (vector):           named vector of metabolite concentrations
+      $iso (matrix):            dynamic labeling data
     $sd_meas (list):            standard deviations on experimental data to fit
+      $conc (vector):           named vector of standard deviation on metabolite concentrations
+      $iso (matrix):            standard deviation of isotopic data
     $times (vector):            simulation times (all measurement times *must* be included)
     $enr_in (list):             list of fitted label inputs returned by `fit_label_input()`, as detailed above (see #fit-label-inputs)
     $anFun (list):              analytical functions (see #simulate-labeling-dynamics), otherwise should be NULL and $enr_in is used
